@@ -113,3 +113,10 @@ def edit(request, author=None):
         return HttpResponse(json.dumps({'id': post.pk, 'permalink': post.permalink}))
 
     return HttpResponseBadRequest(json.dumps(form.errors), content_type='application/json')
+
+
+def test_tasks(request):
+    import bee.tasks
+    result = bee.tasks.test.delay("woot")
+    return HttpResponse(result.wait())
+
